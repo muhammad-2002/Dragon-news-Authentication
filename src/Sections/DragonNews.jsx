@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const DragonNews = () => {
   const [news, setNews] = useState([]);
   useEffect(() => {
-    fetch("/public//data/news.json")
+    fetch("/public/data/news.json")
       .then((res) => res.json())
       .then((data) => setNews(data))
       .catch((err) => console.log(err));
@@ -15,7 +16,7 @@ const DragonNews = () => {
       <div>
         {news.map((item) => (
           <div
-            key={item.id}
+            key={Math.random()}
             className="flex flex-col  mb-6 space-y-6 overflow-hidden rounded-lg "
           >
             <div className="flex justify-between space-x-4 bg-slate-200 p-2 rounded-sm">
@@ -68,7 +69,21 @@ const DragonNews = () => {
                 className="object-cover w-full mb-4  dark:bg-gray-500"
               />
               <h2 className="mb-1 text-xl font-semibold">{item.title}</h2>
-              <p className="text-sm dark:text-gray-600">{item.details}</p>
+              {item.details.length > 200 ? (
+                <p>
+                  {item.details.slice(0, 200)}
+                  <Link
+                    to={`/news/${item._id}`}
+                    className="text-blue-700 text-bold"
+                  >
+                    {" "}
+                    Read more..
+                  </Link>
+                </p>
+              ) : (
+                <p>{item.details}</p>
+              )}
+              <p className="text-sm dark:text-gray-600">{}</p>
             </div>
             <div className="flex flex-wrap justify-between">
               <div className="flex space-x-2 text-sm dark:text-gray-600">
